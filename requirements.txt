@@ -1,0 +1,45 @@
+# Core Dependencies
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pyyaml>=6.0.1
+
+# LLM Providers
+groq>=0.4.1
+anthropic>=0.18.0
+openai>=1.12.0
+
+# PDF Processing
+pymupdf>=1.23.0
+pdfplumber>=0.10.0
+pdf2image>=1.16.3
+
+# OCR & LaTeX
+pytesseract>=0.3.10
+pix2tex>=0.1.2
+
+# Workflow Orchestration
+datapizza>=0.1.0
+
+# Templating
+jinja2>=3.1.3
+markdown>=3.5.0
+
+# Utilities
+rich>=13.7.0
+click>=8.1.7
+tqdm>=4.66.0
+
+# Validation
+html5lib>=1.1
+beautifulsoup4>=4.12.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Development
+black>=23.12.0
+flake8>=6.1.0
+mypy>=1.8.0
+isort>=5.13.0
