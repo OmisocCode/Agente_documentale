@@ -89,6 +89,11 @@ class ChapterAgent(BaseAgent):
                         extractor, structure, total_pages
                     )
 
+            # Final fallback: if no chapters extracted, divide equally
+            if not chapters or len(chapters) == 0:
+                logger.warning("All extraction methods produced no chapters, using equal division fallback")
+                chapters = self._fallback_equal_division(extractor, total_pages)
+
             # Create chapter collection
             chapter_collection = ChapterCollection(
                 chapters=chapters,
@@ -253,9 +258,13 @@ Return ONLY a JSON array, no other text."""
 
             # Fallback: use simple heuristic
             # Treat all headings as potential chapters
-            return [
-                {"title": h["title"], "start_page": h["page"]} for h in headings[:10]
-            ]
+            if headings and len(headings) > 0:
+                return [
+                    {"title": h["title"], "start_page": h["page"]} for h in headings[:10]
+                ]
+            else:
+                logger.warning("No headings available for fallback, returning empty list")
+                return []
 
     def _extract_with_llm(
         self, extractor: PDFExtractor, structure: dict, total_pages: int
