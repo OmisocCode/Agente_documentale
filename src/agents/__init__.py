@@ -7,13 +7,14 @@ Contains the three main agents:
 - ComposerAgent: Generates HTML output
 """
 
-# Agents will be imported here when implemented
-# from src.agents.chapter_agent import ChapterAgent
-# from src.agents.classifier_agent import ClassifierAgent
-# from src.agents.composer_agent import ComposerAgent
+from src.agents.base_agent import BaseAgent
+from src.agents.chapter_agent import ChapterAgent
+from src.agents.classifier_agent import ClassifierAgent
+from src.agents.composer_agent import ComposerAgent
 
 __all__ = [
-    # "ChapterAgent",
-    # "ClassifierAgent",
-    # "ComposerAgent",
+    "BaseAgent",
+    "ChapterAgent",
+    "ClassifierAgent",
+    "ComposerAgent",
 ]
