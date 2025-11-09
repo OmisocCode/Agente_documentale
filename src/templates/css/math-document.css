@@ -1,0 +1,316 @@
+/**
+ * Math Document Theme
+ * Professional academic textbook style
+ */
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --theorem-bg: #e8f4f8;
+    --definition-bg: #fff4e6;
+    --formula-bg: #f5f5f5;
+    --proof-bg: #f0f0f0;
+    --warning-color: #e74c3c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navigation */
+.navigation {
+    position: sticky;
+    top: 0;
+    background-color: var(--background-color);
+    border-bottom: 2px solid var(--border-color);
+    padding: 15px 0;
+    margin-bottom: 30px;
+    z-index: 100;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--accent-color);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Main Content */
+.chapter-content,
+.index-content {
+    padding: 20px 0;
+}
+
+.chapter-title {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 15px;
+}
+
+h2 {
+    font-size: 1.8em;
+    color: var(--secondary-color);
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.4em;
+    color: var(--secondary-color);
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* Chapter Summary */
+.chapter-summary {
+    background-color: #f9f9f9;
+    border-left: 4px solid var(--accent-color);
+    padding: 20px;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+/* Blocks */
+.blocks {
+    margin-top: 30px;
+}
+
+.blocks > div {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+/* Theorem Block */
+.block-theorem {
+    background-color: var(--theorem-bg);
+    border-left: 5px solid #3498db;
+}
+
+.block-theorem .block-name {
+    color: #2980b9;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Definition Block */
+.block-definition {
+    background-color: var(--definition-bg);
+    border-left: 5px solid #f39c12;
+}
+
+.block-definition .block-name {
+    color: #e67e22;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Formula Block */
+.block-formula {
+    background-color: var(--formula-bg);
+    border: 2px solid #95a5a6;
+    text-align: center;
+    padding: 25px;
+}
+
+.formula {
+    font-size: 1.2em;
+    margin: 15px 0;
+}
+
+/* Proof Block */
+.block-proof {
+    background-color: var(--proof-bg);
+    border-left: 3px solid #7f8c8d;
+    font-style: italic;
+}
+
+/* Example Block */
+.block-example {
+    background-color: #e8f8f5;
+    border-left: 5px solid #1abc9c;
+}
+
+.block-example .block-name {
+    color: #16a085;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Remark Block */
+.block-remark {
+    background-color: #fef5e7;
+    border-left: 3px solid #f1c40f;
+}
+
+/* Narrative Block */
+.block-narrative {
+    background-color: transparent;
+    border: none;
+    padding: 10px 0;
+}
+
+.block-content {
+    line-height: 1.8;
+}
+
+/* Review Flag */
+.review-flag {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fff3cd;
+    border: 1px solid var(--warning-color);
+    border-radius: 4px;
+    color: var(--warning-color);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+/* Table of Contents */
+.table-of-contents ul {
+    list-style: none;
+    padding: 0;
+}
+
+.table-of-contents li {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.table-of-contents a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.table-of-contents a:hover {
+    color: var(--accent-color);
+}
+
+.chapter-stats {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #7f8c8d;
+}
+
+/* Index Stats */
+.index-stats {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #ecf0f1;
+    border-radius: 6px;
+}
+
+/* Footer */
+footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 2px solid var(--border-color);
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+/* Back to Top Button */
+#back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#back-to-top:hover {
+    background-color: #2980b9;
+    transform: scale(1.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+        padding: 15px;
+    }
+
+    .chapter-title {
+        font-size: 2em;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .blocks > div {
+        padding: 15px;
+    }
+
+    #back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navigation,
+    #back-to-top {
+        display: none;
+    }
+
+    body {
+        max-width: 100%;
+        font-size: 12pt;
+    }
+
+    .blocks > div {
+        page-break-inside: avoid;
+    }
+}
