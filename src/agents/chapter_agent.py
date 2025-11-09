@@ -139,6 +139,16 @@ class ChapterAgent(BaseAgent):
             else:
                 end_page = total_pages
 
+            # Validate page range
+            if end_page < start_page:
+                logger.warning(f"Invalid page range for chapter {entry['title']}: {start_page}-{end_page}, skipping")
+                continue
+
+            # Ensure at least 1 page
+            if start_page > total_pages:
+                logger.warning(f"Start page {start_page} exceeds total pages {total_pages}, skipping")
+                continue
+
             # Extract text for this chapter
             content = extractor.extract_text((start_page, end_page))
 
@@ -176,20 +186,29 @@ class ChapterAgent(BaseAgent):
         result_chapters = []
 
         for i, chapter_data in enumerate(chapters):
-            start_page = chapter_data["start_page"]
+            start_page = chapter_data.get("start_page", 1)
 
             # Determine end page
             if i < len(chapters) - 1:
-                end_page = chapters[i + 1]["start_page"] - 1
+                end_page = chapters[i + 1].get("start_page", total_pages) - 1
             else:
                 end_page = total_pages
+
+            # Validate page range
+            if end_page < start_page:
+                logger.warning(f"Invalid page range for chapter {chapter_data.get('title', 'Unknown')}: {start_page}-{end_page}, adjusting")
+                end_page = start_page  # At least 1 page
+
+            # Ensure within bounds
+            start_page = max(1, min(start_page, total_pages))
+            end_page = max(start_page, min(end_page, total_pages))
 
             # Extract text
             content = extractor.extract_text((start_page, end_page))
 
             chapter = Chapter(
                 id=f"ch{i + 1}",
-                title=chapter_data["title"],
+                title=chapter_data.get("title", f"Chapter {i + 1}"),
                 pages=list(range(start_page, end_page + 1)),
                 content_raw=content,
                 level=0,
@@ -326,7 +345,7 @@ Return ONLY a JSON array of chapters, no other text."""
             chapters = []
             for i, data in enumerate(chapter_data):
                 start_page = data.get("start_page", 1)
-                estimated_pages = data.get("estimated_pages", total_pages // len(chapter_data))
+                estimated_pages = data.get("estimated_pages", max(1, total_pages // len(chapter_data)))
 
                 end_page = min(start_page + estimated_pages - 1, total_pages)
 
@@ -334,6 +353,15 @@ Return ONLY a JSON array of chapters, no other text."""
                 if i < len(chapter_data) - 1:
                     next_start = chapter_data[i + 1].get("start_page", end_page + 1)
                     end_page = min(end_page, next_start - 1)
+
+                # Validate page range
+                if end_page < start_page:
+                    logger.warning(f"Invalid page range {start_page}-{end_page}, adjusting to single page")
+                    end_page = start_page
+
+                # Ensure within bounds
+                start_page = max(1, min(start_page, total_pages))
+                end_page = max(start_page, min(end_page, total_pages))
 
                 content = extractor.extract_text((start_page, end_page))
 
