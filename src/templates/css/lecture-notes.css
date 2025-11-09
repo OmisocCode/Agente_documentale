@@ -1,0 +1,122 @@
+/**
+ * Lecture Notes Theme
+ * Informal, handwritten-style notes
+ */
+
+:root {
+    --primary-color: #2d3436;
+    --accent-color: #6c5ce7;
+    --background-color: #fffef7;
+    --text-color: #2d3436;
+    --highlight-color: #fdcb6e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image:
+        linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+    background-size: 100% 30px;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.navigation {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: var(--accent-color);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-bottom: 2px dashed var(--accent-color);
+}
+
+.chapter-title {
+    font-size: 2.2em;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--accent-color);
+}
+
+.blocks > div {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
+
+.block-theorem,
+.block-definition {
+    background-color: #fff9e6;
+    border: 2px dashed var(--accent-color);
+    padding: 18px;
+}
+
+.block-name {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    font-size: 0.95em;
+}
+
+.block-formula {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.review-flag {
+    background-color: var(--highlight-color);
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 15px;
+        padding: 20px;
+    }
+}
