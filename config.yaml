@@ -1,0 +1,183 @@
+# PDF Math Agent Configuration
+
+# LLM Provider Settings
+llm:
+  # Primary provider (groq, anthropic, openai)
+  primary_provider: "groq"
+
+  # Groq Configuration (Fast and cost-effective)
+  groq:
+    # Available models: llama-3.3-70b-versatile, llama-3.1-70b-versatile,
+    #                   mixtral-8x7b-32768, gemma2-9b-it
+    default_model: "llama-3.3-70b-versatile"
+    temperature: 0.7
+    max_tokens: 8000
+    timeout: 60
+    # Model selection per task
+    models:
+      chapter_agent: "llama-3.1-70b-versatile"      # Fast for structure analysis
+      classifier_agent: "llama-3.3-70b-versatile"   # Accurate for classification
+      composer_agent: "llama-3.1-70b-versatile"     # Creative for HTML generation
+
+  # Anthropic Configuration (Fallback for complex tasks)
+  anthropic:
+    default_model: "claude-3-5-sonnet-20241022"
+    temperature: 0.7
+    max_tokens: 4096
+    timeout: 120
+
+  # OpenAI Configuration (Optional)
+  openai:
+    default_model: "gpt-4-turbo-preview"
+    temperature: 0.7
+    max_tokens: 4096
+    timeout: 120
+
+# Agent Configuration
+agents:
+  # Task 1: Chapter Agent
+  chapter_agent:
+    max_retries: 3
+    retry_delay: 2  # seconds
+    confidence_threshold: 0.7
+
+  # Task 2: Classifier Agent
+  classifier_agent:
+    max_retries: 3
+    retry_delay: 2
+    confidence_threshold: 0.8
+    # Parallel processing per chapter
+    parallel_processing: true
+    max_workers: 4
+
+  # Task 3: Composer Agent
+  composer_agent:
+    max_retries: 3
+    retry_delay: 2
+    default_theme: "math-document"  # math-document, lecture-notes, presentation
+
+# PDF Processing
+pdf:
+  # PDF type detection (auto, latex_compiled, scanned, handwritten)
+  auto_detect_type: true
+
+  # Extraction tools preferences
+  tools:
+    latex_compiled: "pymupdf"     # Fast and accurate
+    scanned: "nougat"             # OCR for math
+    handwritten: "vision"         # Use GPT-4V/Claude Vision
+
+  # OCR settings
+  ocr:
+    language: "ita+eng"           # Tesseract languages
+    dpi: 300
+
+  # LaTeX extraction
+  latex:
+    extract_formulas: true
+    pix2tex_confidence: 0.5       # Minimum confidence for formula extraction
+    fallback_to_unicode: true
+
+# Template System
+templates:
+  base_dir: "src/templates"
+  css_dir: "src/templates/css"
+  assets_dir: "src/templates/assets"
+
+  # Available themes
+  themes:
+    - "math-document"
+    - "lecture-notes"
+    - "presentation"
+
+  # MathJax configuration
+  mathjax:
+    version: "3.2.2"
+    config: "TeX-AMS-MML_HTMLorMML"
+
+# Checkpoint System
+checkpoints:
+  enabled: true
+  save_dir: "checkpoints"
+  # Save checkpoint after each task
+  save_after_tasks: ["task1", "task2", "task3"]
+  # Auto-resume from last checkpoint
+  auto_resume: true
+  # Checkpoint format (json, pickle)
+  format: "json"
+
+# Output Settings
+output:
+  base_dir: "outputs"
+  # Create subdirectory per PDF
+  per_pdf_dir: true
+  # Include timestamp in directory name
+  include_timestamp: false
+  # HTML validation
+  validate_html: true
+  # Generate index.html
+  generate_index: true
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  # Log to file
+  file:
+    enabled: true
+    path: "logs/pdf_math_agent.log"
+    max_bytes: 10485760  # 10MB
+    backup_count: 5
+  # Log to console
+  console:
+    enabled: true
+    colorize: true
+
+# Performance & Optimization
+performance:
+  # Cache processed PDFs
+  cache:
+    enabled: true
+    dir: "cache"
+    ttl: 604800  # 7 days in seconds
+
+  # Token usage tracking
+  token_tracking:
+    enabled: true
+    warn_threshold: 100000  # Warn if exceeding tokens
+
+  # Batch processing
+  batch:
+    enabled: true
+    size: 5  # Process N chapters at once in Task 2
+
+# Error Handling
+error_handling:
+  # Retry strategy
+  max_retries: 3
+  retry_delay: 2
+  exponential_backoff: true
+  backoff_multiplier: 2
+
+  # Fallback strategies
+  fallback:
+    enabled: true
+    # If Groq fails, try Anthropic
+    provider_fallback: ["groq", "anthropic", "openai"]
+    # If tool fails, try alternative
+    tool_fallback: true
+
+  # Manual review flags
+  manual_review:
+    enabled: true
+    confidence_threshold: 0.6
+    flag_low_confidence: true
+
+# Development Settings
+development:
+  debug: false
+  # Save intermediate results
+  save_intermediate: true
+  intermediate_dir: "debug/intermediate"
+  # Verbose logging
+  verbose: false
