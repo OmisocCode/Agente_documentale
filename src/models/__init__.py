@@ -7,9 +7,36 @@ Contains Pydantic models for:
 - ClassifiedBlock: Classified content blocks
 """
 
-# Models will be imported here when implemented
-# from src.models.state import AgentState
-# from src.models.chapter import Chapter
-# from src.models.block import ClassifiedBlock, BlockType
+from src.models.enums import (
+    AgentTask,
+    BlockAction,
+    BlockType,
+    PDFType,
+    ProcessingStatus,
+)
+from src.models.state import AgentState, TaskResult
+from src.models.chapter import Chapter, ChapterCollection
+from src.models.block import (
+    ClassifiedBlock,
+    ClassifiedChapter,
+    ClassifiedDocument,
+)
 
-__all__ = []
+__all__ = [
+    # Enums
+    "AgentTask",
+    "BlockAction",
+    "BlockType",
+    "PDFType",
+    "ProcessingStatus",
+    # State
+    "AgentState",
+    "TaskResult",
+    # Chapter
+    "Chapter",
+    "ChapterCollection",
+    # Block
+    "ClassifiedBlock",
+    "ClassifiedChapter",
+    "ClassifiedDocument",
+]
