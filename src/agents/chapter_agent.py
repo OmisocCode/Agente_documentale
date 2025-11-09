@@ -371,19 +371,34 @@ Return ONLY a JSON array of chapters, no other text."""
         Returns:
             List of chapters
         """
+        # Adjust num_chapters if PDF is too small
+        num_chapters = min(num_chapters, total_pages)
+
+        if num_chapters == 0:
+            # Edge case: empty PDF
+            logger.error("Cannot create chapters from empty PDF")
+            return []
+
         logger.warning(f"Dividing document into {num_chapters} equal chapters")
 
         pages_per_chapter = total_pages // num_chapters
+        remaining_pages = total_pages % num_chapters
+
         chapters = []
+        current_page = 1
 
         for i in range(num_chapters):
-            start_page = i * pages_per_chapter + 1
+            start_page = current_page
 
-            if i == num_chapters - 1:
-                # Last chapter gets remaining pages
-                end_page = total_pages
-            else:
-                end_page = (i + 1) * pages_per_chapter
+            # Distribute remaining pages across first chapters
+            pages_in_this_chapter = pages_per_chapter + (1 if i < remaining_pages else 0)
+            end_page = start_page + pages_in_this_chapter - 1
+
+            # Ensure at least 1 page per chapter
+            if start_page > total_pages:
+                break
+
+            end_page = min(end_page, total_pages)
 
             content = extractor.extract_text((start_page, end_page))
 
@@ -397,5 +412,7 @@ Return ONLY a JSON array of chapters, no other text."""
 
             chapter.update_metadata()
             chapters.append(chapter)
+
+            current_page = end_page + 1
 
         return chapters
