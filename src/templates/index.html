@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ css_theme }}">
+</head>
+<body>
+    <main class="index-content">
+        <h1>{{ title }}</h1>
+
+        <div class="index-stats">
+            <p>Totale capitoli: {{ total_chapters }}</p>
+        </div>
+
+        <nav class="table-of-contents">
+            <ul>
+            {% for chapter in chapters %}
+                <li>
+                    <a href="{{ chapter.chapter_id }}.html">
+                        {{ chapter.title }}
+                    </a>
+                    <span class="chapter-stats">
+                        ({{ chapter.get_block_count() }} blocchi
+                        {% if chapter.has_mathematical_content() %}
+                        - Contenuto matematico
+                        {% endif %})
+                    </span>
+                </li>
+            {% endfor %}
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        <p>Generato da PDF Math Agent</p>
+    </footer>
+</body>
+</html>

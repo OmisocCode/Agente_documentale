@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ css_theme }}">
+    {% if include_mathjax %}
+    {{ mathjax_config|safe }}
+    {% endif %}
+</head>
+<body>
+    <nav class="navigation">
+        <div class="nav-links">
+            {% if navigation.prev %}
+            <a href="{{ navigation.prev.url }}" class="nav-prev">← {{ navigation.prev.title }}</a>
+            {% endif %}
+
+            {% if navigation.index %}
+            <a href="{{ navigation.index.url }}" class="nav-index">📚 {{ navigation.index.title }}</a>
+            {% endif %}
+
+            {% if navigation.next %}
+            <a href="{{ navigation.next.url }}" class="nav-next">{{ navigation.next.title }} →</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="chapter-content">
+        <h1 class="chapter-title">{{ chapter.title }}</h1>
+
+        {% if chapter.summary %}
+        <div class="chapter-summary">
+            <h2>Riassunto</h2>
+            <p>{{ chapter.summary }}</p>
+        </div>
+        {% endif %}
+
+        <div class="blocks">
+        {% for block in chapter.blocks %}
+            <div class="{{ block.type|block_type_class }}">
+                {% if block.name %}
+                <h3 class="block-name">{{ block.name }}</h3>
+                {% endif %}
+
+                {% if block.type.value == "formula" and block.latex %}
+                <div class="formula">
+                    $${{ block.latex }}$$
+                </div>
+                {% else %}
+                <div class="block-content">
+                    {{ block.content }}
+                </div>
+                {% endif %}
+
+                {% if block.needs_review %}
+                <div class="review-flag">⚠️ Richiede revisione</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        <p>Generato da PDF Math Agent</p>
+    </footer>
+
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+</body>
+</html>
