@@ -78,7 +78,18 @@ class BaseAgent(ABC):
 
     def _init_llm_client(self) -> None:
         """Initialize LLM client based on provider."""
-        if self.llm_provider == "groq":
+        if self.llm_provider == "mock":
+            # Mock client for testing (no API key required)
+            try:
+                from tests.mocks.mock_llm import create_mock_llm_client
+                agent_name = self._get_agent_name()
+                self.client = create_mock_llm_client(agent_type=agent_name)
+                logger.debug(f"Mock LLM client initialized for {agent_name}")
+            except ImportError:
+                logger.warning("Mock LLM client not available, falling back to basic mock")
+                self.client = None
+
+        elif self.llm_provider == "groq":
             api_key = get_api_key("groq")
             if not api_key:
                 raise ValueError("GROQ_API_KEY not found in environment")
@@ -133,7 +144,26 @@ class BaseAgent(ABC):
         """
         for attempt in range(self.max_retries):
             try:
-                if self.llm_provider == "groq":
+                if self.llm_provider == "mock":
+                    # Mock LLM response for testing
+                    messages = []
+                    if system_prompt:
+                        messages.append({"role": "system", "content": system_prompt})
+                    messages.append({"role": "user", "content": prompt})
+
+                    if self.client:
+                        response = self.client.chat_completions_create(
+                            messages=messages,
+                            model=self.model,
+                            temperature=temperature,
+                            max_tokens=max_tokens,
+                        )
+                        return response.choices[0].message.content
+                    else:
+                        # Fallback mock response
+                        return '{"status": "mock", "message": "Mock response"}'
+
+                elif self.llm_provider == "groq":
                     messages = []
                     if system_prompt:
                         messages.append({"role": "system", "content": system_prompt})
